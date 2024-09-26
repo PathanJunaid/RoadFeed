@@ -1,12 +1,18 @@
 // src/components/Feedback.js
-import React, { useContext, useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useContext, useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { Context } from '../Context/StoreContext';
 
-const Feedback = ({ feedbacks }) => {
-  const { feedback } = useContext(Context);
+const Feedback = () => {
+  const { feedback,AdminAuth } = useContext(Context);
+  const navigate = useNavigate();
+  useEffect(()=>{
+    if (!AdminAuth) {
+      navigate('/login'); // Redirect to login if not authenticated
+    }
+  })
   const [currentPage, setCurrentPage] = useState(1);
-  const feedbackPerPage = 2; // Number of feedback per page
+  const feedbackPerPage = 5; // Number of feedback per page
   console.log(feedback)
   // Calculate the indices of the first and last feedback on the current page
   const indexOfLastFeedback = currentPage * feedbackPerPage;
